@@ -52,4 +52,56 @@
   window.addEventListener('resize', () => {
     if (window.innerWidth > 760) fecharMenu();
   });
+
+    // ==========================================
+  // Envio do Formulário de Contato (AJAX)
+  // ==========================================
+  const form = document.getElementById('form-contato');
+  const btnEnviar = document.getElementById('btn-enviar');
+  const resultado = document.getElementById('form-resultado');
+
+  if (form && btnEnviar && resultado) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Impede recarregar a página
+
+      // Estado de carregamento
+      const textoOriginal = btnEnviar.textContent;
+      btnEnviar.textContent = 'Enviando...';
+      btnEnviar.disabled = true;
+      resultado.className = 'form-resultado';
+      resultado.textContent = '';
+
+      // Prepara os dados
+      const formData = new FormData(form);
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      })
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status === 200) {
+          // Sucesso
+          resultado.textContent = 'Mensagem enviada com sucesso! Retornarei em breve.';
+          resultado.classList.add('sucesso');
+          form.reset(); // Limpa os campos
+        } else {
+          // Erro retornado pela API
+          console.error(json);
+          resultado.textContent = 'Ops, algo deu errado. Tente novamente ou use o WhatsApp.';
+          resultado.classList.add('erro');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        resultado.textContent = 'Erro de conexão. Verifique sua internet.';
+        resultado.classList.add('erro');
+      })
+      .finally(() => {
+        // Restaura o botão
+        btnEnviar.textContent = textoOriginal;
+        btnEnviar.disabled = false;
+      });
+    });
+  }
 })();
