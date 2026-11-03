@@ -9,6 +9,18 @@
   <meta name="description" content="WIJU Creative — Willy do Nascimento. Branding, identidade visual e design digital para impressão: silkscreen, DTF, sublimação total e vetorização. Rio de Janeiro, atendimento remoto em todo o Brasil e exterior.">
   <meta name="author" content="Willy do Nascimento">
   <meta name="theme-color" content="#5e00f5">
+
+    <!-- Script para aplicar o tema antes da página carregar (evita flash de tela branca) -->
+  <script>
+    const temaSalvo = localStorage.getItem('wiju-tema') || 'auto';
+    const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (temaSalvo === 'dark' || (temaSalvo === 'auto' && prefereEscuro)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  </script>
+  
   <link rel="canonical" href="https://www.SEUDOMINIO.com.br/">
 
   <!-- ===== Open Graph / WhatsApp / Instagram ===== -->
@@ -58,12 +70,25 @@
 <a class="skip" href="#inicio">Ir para o conteúdo</a>
 
 <header>
-  <nav aria-label="Navegação principal">
+    <nav aria-label="Navegação principal">
     <a href="#inicio" class="marca"><span class="dot" aria-hidden="true"></span>WIJU Creative</a>
 
-    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-acoes">
+      <!-- Botão de Tema -->
+      <button id="theme-toggle" class="theme-btn" aria-label="Alternar tema" title="Alternar tema">
+        <!-- Ícones SVG (serão controlados pelo JS) -->
+        <svg class="icone-sol" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        
+        <svg class="icone-lua" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        
+        <svg class="icone-auto" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+      </button>
+
+      <!-- Botão Hambúrguer -->
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
 
     <ul id="menu">
       <li><a href="#inicio">Início</a></li>
@@ -113,39 +138,33 @@
   <div class="portfolio">
 
     <figure class="projeto">
-      <div class="placeholder"><span>Projeto 1</span><small>Branding</small></div>
-      <!-- <img src="imagens/projeto-1.jpg" alt="Identidade visual criada para a marca X" loading="lazy"> -->
-      <figcaption>Identidade visual — nome do cliente</figcaption>
+      <img src="images/projeto-1.png" alt="Identidade visual criada para a marca Spa Las Águas" loading="lazy">
+      <figcaption>Identidade visual</figcaption>
     </figure>
 
     <figure class="projeto">
-      <div class="placeholder"><span>Projeto 2</span><small>Logotipo</small></div>
-      <!-- <img src="imagens/projeto-2.jpg" alt="Logotipo criado para a marca Y" loading="lazy"> -->
-      <figcaption>Logotipo — nome do cliente</figcaption>
+      <img src="images/projeto-2.png" alt="Logotipo criado para a marca Santana" loading="lazy">
+      <figcaption>Logotipo</figcaption>
     </figure>
 
     <figure class="projeto">
-      <div class="placeholder"><span>Projeto 3</span><small>Papelaria</small></div>
-      <!-- <img src="imagens/projeto-3.jpg" alt="Papelaria institucional da marca Z" loading="lazy"> -->
-      <figcaption>Papelaria institucional — nome do cliente</figcaption>
+      <img src="images/projeto-3.png" alt="Papelaria institucional da marca WIJU" loading="lazy">
+      <figcaption>Papelaria institucional</figcaption>
     </figure>
 
     <figure class="projeto">
-      <div class="placeholder"><span>Projeto 4</span><small>DTF</small></div>
-      <!-- <img src="imagens/projeto-4.jpg" alt="Arte para DTF aplicada em camiseta" loading="lazy"> -->
-      <figcaption>Arte para DTF — nome do cliente</figcaption>
+      <img src="images/projeto-4.png" alt="Arte para DTF aplicada em camiseta" loading="lazy">
+      <figcaption>Arte para DTF</figcaption>
     </figure>
 
     <figure class="projeto">
-      <div class="placeholder"><span>Projeto 5</span><small>Silkscreen</small></div>
-      <!-- <img src="imagens/projeto-5.jpg" alt="Arte para silkscreen em três cores" loading="lazy"> -->
-      <figcaption>Arte para silkscreen — nome do cliente</figcaption>
+      <img src="images/projeto-5.png" alt="Arte para silkscreen em três cores" loading="lazy">
+      <figcaption>Arte para silkscreen</figcaption>
     </figure>
 
     <figure class="projeto">
-      <div class="placeholder"><span>Projeto 6</span><small>Vetorização</small></div>
-      <!-- <img src="imagens/projeto-6.jpg" alt="Vetorização de logotipo para impressão" loading="lazy"> -->
-      <figcaption>Vetorização — nome do cliente</figcaption>
+      <img src="images/projeto-6.png" alt="Vetorização de logotipo para impressão" loading="lazy">
+      <figcaption>Vetorização</figcaption>
     </figure>
 
   </div>
@@ -231,6 +250,12 @@
 <footer>
   © 2026 <strong>WIJU Creative</strong> · Willy do Nascimento · Rio de Janeiro, RJ
 </footer>
+
+<!-- Estrutura do Lightbox (invisível por padrão) -->
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-fechar" aria-label="Fechar imagem">&times;</button>
+  <img id="lightbox-img" src="" alt="Imagem ampliada do portfólio">
+</div>
 
 <script src="js/script.js" defer></script>
 

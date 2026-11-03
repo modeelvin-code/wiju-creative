@@ -104,4 +104,116 @@
       });
     });
   }
+
+    // ==========================================
+  // Alternador de Tema (Claro / Escuro / Auto)
+  // ==========================================
+  const themeBtn = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  
+  // Função para aplicar o tema
+  function aplicarTema(tema) {
+    if (tema === 'auto') {
+      // Verifica a preferência do sistema (relógio do celular/PC)
+      const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      /* 
+       * ALTERNATIVA POR RELÓGIO FIXO: Se quiser ignorar o sistema e forçar 
+       * escuro após as 18h e claro após as 6h, descomente as linhas abaixo:
+       * const hora = new Date().getHours();
+       * const prefereEscuro = (hora >= 18 || hora < 6);
+       */
+       
+      html.setAttribute('data-theme', prefereEscuro ? 'dark' : 'light');
+      localStorage.setItem('wiju-tema', 'auto');
+      themeBtn.title = "Tema automático (sistema)";
+    } else {
+      html.setAttribute('data-theme', tema);
+      localStorage.setItem('wiju-tema', tema);
+      themeBtn.title = tema === 'dark' ? "Mudar para tema claro" : "Mudar para tema automático";
+    }
+    
+    // Atualiza os ícones (Sol, Lua, Auto)
+    const icones = themeBtn.querySelectorAll('svg');
+    icones.forEach(svg => svg.style.display = 'none');
+    
+    if (tema === 'light') {
+      themeBtn.querySelector('.icone-sol').style.display = 'block';
+    } else if (tema === 'dark') {
+      themeBtn.querySelector('.icone-lua').style.display = 'block';
+    } else {
+      themeBtn.querySelector('.icone-auto').style.display = 'block';
+    }
+  }
+
+  // Inicializa o botão com o estado atual
+  const temaAtual = localStorage.getItem('wiju-tema') || 'auto';
+  aplicarTema(temaAtual);
+
+  // Clique no botão: Cicla entre Auto -> Claro -> Escuro -> Auto...
+  themeBtn.addEventListener('click', () => {
+    const atual = localStorage.getItem('wiju-tema') || 'auto';
+    let proximo = 'auto';
+    
+    if (atual === 'auto') proximo = 'light';
+    else if (atual === 'light') proximo = 'dark';
+    
+    aplicarTema(proximo);
+  });
+
+  // Ouve mudanças no tema do sistema (caso o usuário mude o celular para escuro no meio do dia)
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (localStorage.getItem('wiju-tema') === 'auto') {
+      aplicarTema('auto');
+    }
+  });
+
+    // ==========================================
+  // Lightbox do Portfólio
+  // ==========================================
+  const projetos = document.querySelectorAll('.projeto');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const btnFechar = document.querySelector('.lightbox-fechar');
+
+  if (lightbox && lightboxImg && btnFechar) {
+    // Abre o lightbox ao clicar em um projeto
+    projetos.forEach(projeto => {
+      projeto.addEventListener('click', () => {
+        const imgOriginal = projeto.querySelector('img');
+        if (imgOriginal) {
+          lightboxImg.src = imgOriginal.src;
+          lightboxImg.alt = imgOriginal.alt;
+          lightbox.classList.add('ativo');
+          lightbox.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden'; // Trava o scroll do fundo
+        }
+      });
+    });
+
+    // Função para fechar
+    function fecharLightbox() {
+      lightbox.classList.remove('ativo');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = ''; // Libera o scroll
+      
+      // Limpa a imagem depois da animação para não piscar
+      setTimeout(() => { lightboxImg.src = ''; }, 300);
+    }
+
+    // Fecha ao clicar no botão X
+    btnFechar.addEventListener('click', fecharLightbox);
+
+    // Fecha ao clicar no fundo escuro (fora da imagem)
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) fecharLightbox();
+    });
+
+    // Fecha ao apertar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('ativo')) {
+        fecharLightbox();
+      }
+    });
+  }
 })();
