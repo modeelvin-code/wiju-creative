@@ -191,7 +191,7 @@
     });
   }
 
-  // ==========================================
+    // ==========================================
   // Animação de Scroll (Reveal)
   // ==========================================
   const elementosRevelar = document.querySelectorAll('.revelar');
@@ -201,18 +201,17 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('ativo');
-          observer.unobserve(entry.target); // Anima apenas uma vez
+          observer.unobserve(entry.target);
         }
       });
     }, {
-      threshold: 0.15,
-      rootMargin: "0px 0px -50px 0px"
+      threshold: 0, // Dispara assim que o elemento encosta na tela
+      rootMargin: "0px 0px -80px 0px" // Começa a animar 80px antes de aparecer na tela (perfeito para PC)
     });
 
     elementosRevelar.forEach(el => observer.observe(el));
   } else {
-    // Fallback para navegadores antigos
     elementosRevelar.forEach(el => el.classList.add('ativo'));
-  }
+  } 
 
 })();

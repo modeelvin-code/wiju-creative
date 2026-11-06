@@ -316,3 +316,31 @@ footer strong { color: var(--text); }
   * { transition: none !important; animation: none !important; }
   .revelar { opacity: 1; transform: none; }
 }
+
+/* =========================================================
+   Ajustes: Logo e Animação Desktop
+   ========================================================= */
+
+/* Se usar a logo no Header */
+.logo-header {
+  max-height: 40px; /* Ajuste o tamanho da logo no cabeçalho */
+  width: auto;
+}
+
+/* Se usar a logo no Hero (Topo) */
+.logo-hero {
+  max-width: 280px; /* Tamanho da logo no topo do site */
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+/* Animação mais lenta e perceptível no Desktop */
+.revelar { 
+  opacity: 0; 
+  transform: translateY(40px); 
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+.revelar.ativo { 
+  opacity: 1; 
+  transform: translateY(0); 
+}
